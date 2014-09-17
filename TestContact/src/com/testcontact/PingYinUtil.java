@@ -14,13 +14,12 @@ public class PingYinUtil {
 	    * @param inputString
 	    * @return
 	    */
-	    public static String getPingYin(String inputString) {
+	    public static String  getPingYin(String inputString) {
 	        HanyuPinyinOutputFormat format = new
 	        HanyuPinyinOutputFormat();
 	        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 	        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 	        format.setVCharType(HanyuPinyinVCharType.WITH_V);
-
 	        char[] input = inputString.trim().toCharArray();
 	        String output = "";
 

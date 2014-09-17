@@ -34,14 +34,14 @@
                 style="@style/MMFontTitleInList"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:singleLine="true" />
               <TextView
-                android:id="@+id/contactitem_nick"
+                android:id="@+id/contactitem_phonenum"
                 android:layout_weight="1"
                 style="@style/MMFontTitleInList"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:singleLine="true" />
         </LinearLayout>
        <!--  <CheckBox
@@ -50,9 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="21.0dip"
             android:clickable="false"
-            android:focusable="false"
+            android:focusable="false" 
             android:focusableInTouchMode="false"
             android:visibility="visible" /> -->
     </LinearLayout>
-
 </LinearLayout>

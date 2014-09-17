@@ -46,9 +46,16 @@ public class TestContactActivity extends Activity {
         for (int i = 0; i < callLogs.size(); i++) {
         	ContactBean log= callLogs.get(i);
         	String phone= log.getContactPhone().replace(" ", "").replace("-", "");
-        	nicks[i]=log.getContactName()+"\\n"+phone;
+        	nicks[i]=log.getContactName()+" "+phone;
 		}
-        findView();
+//        for (int i = 0; i < nicks.length; i++) {
+//			System.out.println("这是排序前的=====>>>"+nicks[i]);
+//		}
+//        Arrays.sort(nicks, new PinyinComparator());
+//        for (int i = 0; i < nicks.length; i++) {
+//			System.out.println("这是排序后的=====>>>"+nicks[i]);
+//		}
+       findView();
     }
     
     private void findView(){
@@ -66,8 +73,6 @@ public class TestContactActivity extends Activity {
                 PixelFormat.TRANSLUCENT);
         mWindowManager.addView(mDialogText, lp);
         indexBar.setTextView(mDialogText);
-     
-        
     }
     
      class ContactAdapter extends BaseAdapter implements SectionIndexer {  
@@ -105,6 +110,7 @@ public class TestContactActivity extends Activity {
 				viewHolder.tvCatalog = (TextView)convertView.findViewById(R.id.contactitem_catalog);
 				viewHolder.ivAvatar = (ImageView)convertView.findViewById(R.id.contactitem_avatar_iv);
 				viewHolder.tvNick = (TextView)convertView.findViewById(R.id.contactitem_nick);
+				viewHolder.tvPhoneNum=(TextView) convertView.findViewById(R.id.contactitem_phonenum);
 				convertView.setTag(viewHolder);
 			}else{
 				viewHolder = (ViewHolder)convertView.getTag();
@@ -122,7 +128,6 @@ public class TestContactActivity extends Activity {
 					viewHolder.tvCatalog.setText(catalog);
 				}
 			}
-			
 			viewHolder.ivAvatar.setImageResource(R.drawable.default_avatar);
 			viewHolder.tvNick.setText(nickName);
 			return convertView;
@@ -132,6 +137,7 @@ public class TestContactActivity extends Activity {
 			TextView tvCatalog;//目录
 			ImageView ivAvatar;//头像
 			TextView tvNick;//昵称
+			TextView tvPhoneNum; //电话号码
 		}
  
 		@Override
