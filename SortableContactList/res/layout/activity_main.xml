@@ -10,11 +10,12 @@
 <com.crrain.sortablecontactlist.SideBar
 	android:id = "@+id/sideBar"
    	android:layout_height="fill_parent"
-   	android:layout_width="80px"
+   	android:layout_width="40px"
    	android:layout_alignParentRight="true"
 />
 
 <TextView
+    android:layout_centerInParent="true"
     android:id="@+id/tvScrollSectionShow"
     android:layout_width="50dp"
     android:layout_height="50dp"

@@ -1,18 +1,19 @@
 package com.crrain.sortablecontactlist;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Telephony.Sms.Conversations;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import com.crrain.sortablecontactlist.bean.ContactBean;
 import com.crrain.sortablecontactlist.util.ContactInfoService;
 import com.crrain.sortablecontactlist.util.StringUtil;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnItemClickListener{
 
 	public static final int UPDATE_VIEW_TIPS = 1;
 	public static final int HIDDEN_VIEW_TIPS = 2;
@@ -38,9 +39,11 @@ public class MainActivity extends Activity {
 			switch (msg.what) {
 			case UPDATE_VIEW_TIPS:
 				if (scrollTipView != null) {
-					LayoutParams layoutParams = indexBar.getLayoutParams();
+					
+					/*LayoutParams layoutParams = indexBar.getLayoutParams();
 					layoutParams.width = sideBarWidth * 2;
-					indexBar.setLayoutParams(layoutParams);
+					indexBar.setLayoutParams(layoutParams);*/
+					
 					String tips = msg.obj.toString();
 					scrollTipView.setText(tips);
 					scrollTipView.setVisibility(View.VISIBLE);
@@ -64,9 +67,9 @@ public class MainActivity extends Activity {
 			case HIDDEN_VIEW_TIPS:
 				if (scrollTipView != null) {
 					scrollTipView.setVisibility(View.INVISIBLE);
-					LayoutParams layoutParams = indexBar.getLayoutParams();
+				/*	LayoutParams layoutParams = indexBar.getLayoutParams();
 					layoutParams.width = sideBarWidth;
-					indexBar.setLayoutParams(layoutParams);
+					indexBar.setLayoutParams(layoutParams);*/
 				}
 				break;
 			default:
@@ -74,53 +77,31 @@ public class MainActivity extends Activity {
 			}
 		}
 	};
+	private ArrayList<ContactBean> contactBeanList;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ListView list = (ListView) findViewById(R.id.myListView);
-		ArrayList<ContactBean> contactBeanList = InitListViewData();
+		list.setOnItemClickListener(this);
+		contactBeanList = InitListViewData();
 		ArrayList<String> stringList =new ArrayList<String>();
 		for (int i = 0; i < contactBeanList.size(); i++) {
 			stringList.add(contactBeanList.get(i).getContactName());
 		}
 		MyAdapter adapter = new MyAdapter(this, contactBeanList,stringList);
 		list.setAdapter(adapter);
+		
 		indexBar = (SideBar) findViewById(R.id.sideBar);
 		sideBarWidth = indexBar.getLayoutParams().width;
 		indexBar.setListView(list);
-		indexBar.setHandler(handler);
+		indexBar.setHandler(handler);         //设置侧边栏放大
 		scrollTipView = (TextView) findViewById(R.id.tvScrollSectionShow);
 		scrollTipView.setVisibility(View.INVISIBLE);
 	}
 
 	private ArrayList<ContactBean> InitListViewData() {
 		ArrayList<String> stringList = new ArrayList<String>();
-		// stringList.add("深圳");
-		// stringList.add("深水埗");
-		// stringList.add("Crrain");
-		// stringList.add("啊");
-		// stringList.add("八点");
-		// stringList.add("ads");
-		// stringList.add("abhor");
-		// stringList.add("万分感");
-		// stringList.add("abuse");
-		// stringList.add("candidate");
-		// stringList.add("eapture");
-		// stringList.add("careful");
-		// stringList.add("hatch");
-		// stringList.add("kause");
-		// stringList.add("kelebrate");
-		// stringList.add("forever");
-		// stringList.add("fable");
-		// stringList.add("阿达");
-		// stringList.add("fox");
-		// stringList.add("funny");
-		// stringList.add("fail");
-		// stringList.add("jailor");
-		// stringList.add("aazz");
-		// stringList.add("zero");
-		// stringList.add("zing");
 		ContactInfoService servic = new ContactInfoService(MainActivity.this);
 		ArrayList<ContactBean> contactName = servic.getContact();
 		for (int i = 0; i < contactName.size(); i++) {
@@ -148,6 +129,28 @@ public class MainActivity extends Activity {
 			}
 		}
 		return myContactNameLists;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		switch (arg0.getId()) {
+		case R.id.myListView:
+			String contactPhoneNum = contactBeanList.get(arg2).getContactPhone();
+			  //创建一个意图，意图是重点，会在今后重点讲到
+            Intent intent = new Intent();
+            //该意图的动作是拨打电话
+            intent.setAction(intent.ACTION_CALL);
+            //设置该意图要操作的数据，这里也就是电话号码，注意书写的格式
+            intent.setData(Uri.parse("tel:"+contactPhoneNum));
+            //开始
+            startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 }
